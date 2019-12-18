@@ -1,4 +1,5 @@
 import numpy as np
+from appJar import gui
 
 print ("Hello World")
 
@@ -102,6 +103,28 @@ def checkBoard(board):
                         check[value - 1] = 1 
     return True
 
-print(checkBoard(board))
 
-print(checkBoard(correctBoard))
+def press(button):
+    test = app.getAllEntries()
+    array = np.zeros((9,9))
+    # Take in all the Data from the game board
+    for col in range(0,9):
+        for row in range(0,9):
+            array[col][row] = app.getEntry(str(col)+str(row))
+    print(array)
+
+
+#print(checkBoard(correctBoard))
+
+app=gui("Sudoku", "300x300")
+app.setSticky("news")
+app.setExpand("both")
+app.setFont(20)
+# Setup all of the Entry boxes
+for col in range(0,9):
+    for row in range(0,9):
+        app.addNumericEntry(str(col)+str(row), col, row)
+
+# Add the final button to Check the Board
+app.addButton("Check Board", press, 10, 0, 9,1)
+app.go()
