@@ -120,25 +120,54 @@ def press(button):
         # Take in all the Data from the game board
         for col in range(0,9):
             for row in range(0,9):
-                entry = app.getEntry(str(col)+str(row))
-                if entry is None:
-                    array[col][row] = 0
+                if starterBoard[col][row] != 0:
+                    array[col][row] = starterBoard[col][row]
                 else:
-                    array[col][row] = entry
+                    entry = app.getEntry(str(col)+str(row))
+                    if entry is None:
+                        array[col][row] = 0
+                    else:
+                        array[col][row] = entry
         
         array = array.astype(int)
         print(array)
         print(checkBoard(array))
 
-app=gui("Sudoku", "300x300")
+app=gui("Sudoku", "500x500")
+app.setBg("red")
 app.setSticky("news")
 app.setExpand("both")
 app.setFont(20)
+
+app.addVerticalSeparator(row=0,column=3,colspan=1,rowspan=11)
+app.addVerticalSeparator(row=0,column=7,colspan=1,rowspan=11)
+#app.addHorizontalSeparator(row=3,column=0,colspan=11,rowspan=1)
+#app.addHorizontalSeparator(row=7,column=0,colspan=11,rowspan=1)
+
+#app.setPadding(20,20)
 # Setup all of the Entry boxes
 for col in range(0,9):
     for row in range(0,9):
-        app.addNumericEntry(str(col)+str(row), col, row)
+        colLocation = col
+        rowLoaction = row
+        if col > 3:
+            colLocation = colLocation + 1
+        if col > 6:
+            colLocation = colLocation + 1
+        if row >= 3:
+            rowLoaction = rowLoaction + 1
+        if row >= 6:
+            rowLoaction = rowLoaction + 1
+        print(colLocation, rowLoaction)
+        if starterBoard[col][row] == 0:
+            app.addNumericEntry(str(col)+str(row), colLocation, rowLoaction)
+        else:
+            app.addLabel(str(col)+str(row), str(starterBoard[col][row]), colLocation, rowLoaction)
 
 # Add the final button to Check the Board
-app.addButton("Check Board", press, 10, 0, 9,1)
+app.addButton("Check Board", press, 12, 0, 12,1)
+app.addVerticalSeparator(row=0,column=3,colspan=1,rowspan=11)
+app.addVerticalSeparator(row=0,column=7,colspan=1,rowspan=11)
+app.addHorizontalSeparator(row=3,column=0,colspan=11,rowspan=1)
+app.addHorizontalSeparator(row=7,column=0,colspan=11,rowspan=1)
 app.go()
