@@ -1,5 +1,6 @@
 import numpy as np
 from appJar import gui
+import math
 
 print ("Hello World")
 
@@ -105,16 +106,21 @@ def checkBoard(board):
 
 
 def press(button):
-    test = app.getAllEntries()
-    array = np.zeros((9,9))
-    # Take in all the Data from the game board
-    for col in range(0,9):
-        for row in range(0,9):
-            array[col][row] = app.getEntry(str(col)+str(row))
-    print(array)
-
-
-#print(checkBoard(correctBoard))
+    if button == "Check Board":
+        test = app.getAllEntries()
+        array = np.zeros((9,9))
+        # Take in all the Data from the game board
+        for col in range(0,9):
+            for row in range(0,9):
+                entry = app.getEntry(str(col)+str(row))
+                if entry is None:
+                    array[col][row] = 0
+                else:
+                    array[col][row] = entry
+        
+        array = array.astype(int)
+        print(array)
+        print(checkBoard(array))
 
 app=gui("Sudoku", "300x300")
 app.setSticky("news")
