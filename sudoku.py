@@ -133,26 +133,52 @@ def press(button):
         print(array)
         print(checkBoard(array))
 
-app=gui("Sudoku", "500x500")
-app.setBg("red")
-app.setSticky("news")
-app.setExpand("both")
-app.setFont(20)
+app=gui("Sudoku", "1000x1000")
+app.setBg("white")
+# news means North East West South. It keeps the content centered in the cell
 
+app.setExpand("both")
+app.setStretch("both")
+app.setSticky("news")
+app.setPadding([0,0])
+app.setFont(15)
+for col in range(0,11):
+    for row in range(0,11):
+        if col == 3:
+            app.addVerticalSeparator(row=row,column=col, rowspan = 0, height = 1)
+        if col == 7:
+            app.addVerticalSeparator(row=row,column=col, rowspan = 0)
+        if row == 3:
+            app.addHorizontalSeparator(row=row,column=col, colspan = 0)
+        if row == 7:
+            app.addHorizontalSeparator(row=row,column=col, colspan = 0)
+
+"""
+app.addHorizontalSeparator(row=3,column=0,colspan=11,rowspan=1)
+app.addHorizontalSeparator(row=7,column=0,colspan=11,rowspan=1)
 app.addVerticalSeparator(row=0,column=3,colspan=1,rowspan=11)
 app.addVerticalSeparator(row=0,column=7,colspan=1,rowspan=11)
-#app.addHorizontalSeparator(row=3,column=0,colspan=11,rowspan=1)
-#app.addHorizontalSeparator(row=7,column=0,colspan=11,rowspan=1)
+"""
 
 #app.setPadding(20,20)
 # Setup all of the Entry boxes
+
 for col in range(0,9):
     for row in range(0,9):
         colLocation = col
         rowLoaction = row
-        if col > 3:
+        if col == 3:
+            app.addVerticalSeparator(row=row,column=col, rowspan = 0)
+        if col == 7:
+            app.addVerticalSeparator(row=row,column=col, rowspan = 0)
+        if row == 3:
+            app.addHorizontalSeparator(row=row,column=col, colspan = 0)
+        if row == 7:
+            app.addHorizontalSeparator(row=row,column=col, colspan = 0)
+
+        if col >= 3:
             colLocation = colLocation + 1
-        if col > 6:
+        if col >= 6:
             colLocation = colLocation + 1
         if row >= 3:
             rowLoaction = rowLoaction + 1
@@ -165,9 +191,6 @@ for col in range(0,9):
             app.addLabel(str(col)+str(row), str(starterBoard[col][row]), colLocation, rowLoaction)
 
 # Add the final button to Check the Board
-app.addButton("Check Board", press, 12, 0, 12,1)
-app.addVerticalSeparator(row=0,column=3,colspan=1,rowspan=11)
-app.addVerticalSeparator(row=0,column=7,colspan=1,rowspan=11)
-app.addHorizontalSeparator(row=3,column=0,colspan=11,rowspan=1)
-app.addHorizontalSeparator(row=7,column=0,colspan=11,rowspan=1)
+
+app.addButton("Check Board", press, 11, 0, 11,1)
 app.go()
